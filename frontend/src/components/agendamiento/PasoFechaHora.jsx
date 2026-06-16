@@ -2,7 +2,7 @@ import Calendario from './Calendario'
 import SelectorHorario from './SelectorHorario'
 
 export default function PasoFechaHora({ fecha, onFecha, hora, onHora, onContinuar, servicios }) {
-  const servicioId = servicios?.[0]?.id
+  const servicioId = servicios?.[0]?._id || servicios?.[0]?.id
 
   return (
     <div>

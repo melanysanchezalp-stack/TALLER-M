@@ -77,16 +77,16 @@ export default function Home() {
   const [cargandoServicios, setCargandoServicios] = useState(true)
 
   useEffect(() => {
-    obtenerMarcas().then(({ data }) => setMarcas(data)).catch(() => {})
+    obtenerMarcas().then(({ data }) => setMarcas(data.data)).catch(() => {})
     obtenerServicios()
-      .then(({ data }) => setServicios(data))
+      .then(({ data }) => setServicios(data.data))
       .catch(() => {})
       .finally(() => setCargandoServicios(false))
   }, [])
 
   useEffect(() => {
     if (!marcaId) { setModelos([]); setModeloId(''); return }
-    obtenerModelos(marcaId).then(({ data }) => setModelos(data)).catch(() => setModelos([]))
+    obtenerModelos(marcaId).then(({ data }) => setModelos(data.data)).catch(() => setModelos([]))
   }, [marcaId])
 
   const handleMarca = (e) => {
@@ -174,7 +174,7 @@ export default function Home() {
                     className="w-full border border-gray-200 bg-gray-50 rounded-lg px-3 py-2.5 text-sm text-gray-700 focus:outline-none focus:border-orange-400"
                   >
                     <option value="">Selecciona</option>
-                    {marcas.map(m => <option key={m.id} value={m.id}>{m.nombre}</option>)}
+                    {marcas.map(m => <option key={m._id} value={m._id}>{m.nombre}</option>)}
                   </select>
                 </div>
                 <div>
@@ -186,15 +186,15 @@ export default function Home() {
                     className="w-full border border-gray-200 bg-gray-50 rounded-lg px-3 py-2.5 text-sm text-gray-700 focus:outline-none focus:border-orange-400 disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     <option value="">{marcaId && modelos.length === 0 ? 'Cargando...' : 'Selecciona'}</option>
-                    {modelos.map(m => <option key={m.id} value={m.id}>{m.nombre}</option>)}
+                    {modelos.map(m => <option key={m._id} value={m._id}>{m.nombre}</option>)}
                   </select>
                 </div>
               </div>
 
               <button
                 onClick={() => {
-                  const marcaObj  = marcas.find(m => m.id === marcaId)
-                  const modeloObj = modelos.find(m => m.id === modeloId)
+                  const marcaObj  = marcas.find(m => m._id === marcaId)
+                  const modeloObj = modelos.find(m => m._id === modeloId)
                   navigate('/cotizador', {
                     state: {
                       vehiculo: {
@@ -283,7 +283,7 @@ export default function Home() {
           ) : (
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
               {servicios.slice(0, 6).map((s, i) => (
-                <div key={s.id} className="bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100 hover:shadow-md hover:-translate-y-1 transition-all group">
+                <div key={s._id || s.id || i} className="bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100 hover:shadow-md hover:-translate-y-1 transition-all group">
                   <div className="relative h-48 overflow-hidden">
                     <img
                       src={IMGS[i % IMGS.length]}

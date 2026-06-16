@@ -14,7 +14,6 @@ export default function Register() {
   const [apellido, setApellido]   = useState('')
   const [telefono, setTelefono]   = useState('')
   const [direccion, setDireccion] = useState('')
-  const [rut, setRut]             = useState('')
   const [error, setError]         = useState(null)
   const [cargando, setCargando]   = useState(false)
 
@@ -31,7 +30,6 @@ export default function Register() {
         apellido,
         telefono,
         direccion,
-        rut,
         rolNombre: 'CLIENTE',
       })
 
@@ -59,10 +57,8 @@ export default function Register() {
         setApellido={setApellido}
         telefono={telefono}
         direccion={direccion}
-        rut={rut}
         setTelefono={setTelefono}
         setDireccion={setDireccion}
-        setRut={setRut}
         esRegistro={true}
         error={error}
         cargando={cargando}

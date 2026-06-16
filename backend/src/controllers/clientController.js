@@ -29,12 +29,28 @@ export const createClient = asyncHandler(async (req, res) => {
 // @desc    Obtener todos los clientes
 // @route   GET /api/clients
 export const getClients = asyncHandler(async (req, res) => {
-  const clients = await Client.find().populate('createdBy', 'name email');
+  const clients = await Client.find().populate('createdBy', 'nombre apellido email').lean();
+
+  const data = clients.map(c => {
+    const nameParts = (c.name || '').split(' ');
+    return {
+      id: c._id.toString(),
+      usuario: {
+        nombre:   c.createdBy?.nombre   || nameParts[0]               || '',
+        apellido: c.createdBy?.apellido || nameParts.slice(1).join(' ')|| '',
+        email:    c.email || c.createdBy?.email || '',
+        activo:   true,
+      },
+      nivelFidelizacion: c.nivelFidelizacion || 'BASICO',
+      puntos:    c.puntos    || 0,
+      descuento: c.descuento ?? null,
+    };
+  });
 
   res.status(HTTP_CODES.OK).json({
     success: true,
     count: clients.length,
-    data: clients,
+    data,
   });
 });
 
@@ -70,6 +86,19 @@ export const updateClient = asyncHandler(async (req, res) => {
     message: 'Cliente actualizado exitosamente',
     data: client,
   });
+});
+
+// @desc    Ajustar puntos de fidelización
+// @route   PATCH /api/clientes/:id/puntos
+export const ajustarPuntos = asyncHandler(async (req, res) => {
+  const puntos = parseInt(req.query.puntos ?? req.body.puntos ?? 0, 10);
+  const client = await Client.findByIdAndUpdate(
+    req.params.id,
+    { $inc: { puntos } },
+    { new: true }
+  );
+  if (!client) throw new AppError('Cliente no encontrado', HTTP_CODES.NOT_FOUND);
+  res.json({ success: true, data: client });
 });
 
 // @desc    Eliminar un cliente

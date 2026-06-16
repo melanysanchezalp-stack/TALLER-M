@@ -271,7 +271,7 @@ export default function Agendamientos() {
 
   useEffect(() => {
     obtenerMisAgendamientos()
-      .then(r => setAgendamientos(r.data || []))
+      .then(r => setAgendamientos(r.data?.data || []))
       .catch(err => console.error('Error cargando agendamientos:', err))
       .finally(() => setCargando(false))
   }, [])

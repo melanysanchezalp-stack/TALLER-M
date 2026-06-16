@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Lock, Mail, Eye, EyeOff, Wrench, Package, BarChart, Phone, MapPin, FileText } from "lucide-react";
+import { Lock, Mail, Eye, EyeOff, Wrench, Package, BarChart, Phone, MapPin } from "lucide-react";
 import { useState } from "react";
 
 export default function InicioSesion({
@@ -14,10 +14,8 @@ export default function InicioSesion({
   setApellido,
   telefono,
   direccion,
-  rut,
   setTelefono,
   setDireccion,
-  setRut,
   esRegistro,
   error,
   cargando,
@@ -89,7 +87,7 @@ export default function InicioSesion({
       </div>
 
       {/* DERECHA */}
-      <div className="w-[55%] flex justify-center items-center bg-gray-100 px-6">
+      <div className="w-[55%] flex justify-center items-start bg-gray-100 px-6 py-10 overflow-y-auto">
 
         <div className="w-full max-w-lg bg-white p-10 rounded-2xl shadow-xl">
 
@@ -243,21 +241,6 @@ export default function InicioSesion({
                     value={direccion}
                     onChange={(e) => setDireccion(e.target.value)}
                     placeholder="Av. Siempre Viva 742"
-                    className="bg-transparent outline-none w-full text-sm"
-                  />
-                </div>
-              </div>
-              <div className="mb-4">
-                <label className="text-gray-500 text-xs font-semibold">
-                  RUT
-                </label>
-                <div className="bg-gray-100 px-4 py-3 rounded-lg flex items-center mt-1">
-                  <FileText size={16} className="text-gray-400 mr-2" />
-                  <input
-                    type="text"
-                    value={rut}
-                    onChange={(e) => setRut(e.target.value)}
-                    placeholder="12.345.678-9"
                     className="bg-transparent outline-none w-full text-sm"
                   />
                 </div>

@@ -31,14 +31,11 @@ export default function TabCrearCuenta({ onContinuar, vehiculo }) {
         email:       form.email,
         telefono:    form.telefono,
         password:    form.password,
-        patente:     vehiculo?.patente  ?? null,
-        marcaId:     vehiculo?.marcaId  ?? null,
-        modeloId:    vehiculo?.modeloId ?? null,
-        anio:        vehiculo?.anio     ? Number(vehiculo.anio) : null,
-        kilometraje: vehiculo?.kilometraje ? Number(vehiculo.kilometraje) : null,
+        rolNombre:   'CLIENTE',
       }
-      const { data } = await api.post('/api/auth/register-con-vehiculo', payload)
-      loginCtx(data.token, { rol: data.rol, nombre: data.nombre, usuarioId: data.usuarioId })
+      const { data } = await api.post('/api/auth/register', payload)
+      const user = data.data
+      loginCtx(user.token, { token: user.token, rol: user.role, nombre: user.nombre, email: user.email, usuarioId: user._id })
       onContinuar()
     } catch (e) {
       setError(e.response?.data?.message ?? e.response?.data ?? 'Error al crear la cuenta. Intenta de nuevo.')

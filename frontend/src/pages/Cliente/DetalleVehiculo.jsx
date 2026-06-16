@@ -32,7 +32,7 @@ export default function DetalleVehiculo() {
         obtenerMisAgendamientos()
       ])
 
-      const encontrado = vehiculosRes.data.find(v => v.id === id)
+      const encontrado = (vehiculosRes.data?.data || []).find(v => v.id === id)
 
       if (!encontrado) {
         navigate('/mis-vehiculos')
@@ -41,7 +41,7 @@ export default function DetalleVehiculo() {
 
       setVehiculo(encontrado)
 
-      const historial = (agRes.data || []).filter(
+      const historial = (agRes.data?.data || []).filter(
         ag =>
           ag.idVehiculo === encontrado.id ||
           ag.patenteVehiculo === encontrado.patente

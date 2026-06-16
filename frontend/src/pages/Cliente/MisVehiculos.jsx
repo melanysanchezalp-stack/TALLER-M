@@ -36,7 +36,7 @@ export default function MisVehiculos() {
     }
 
     cargarVehiculos()
-    obtenerMarcas().then(({ data }) => setMarcas(data)).catch(() => {})
+    obtenerMarcas().then(({ data }) => setMarcas(data.data ?? [])).catch(() => {})
   }, [authListo, usuario])
 
   useEffect(() => {
@@ -47,7 +47,7 @@ export default function MisVehiculos() {
     }
 
     obtenerModelos(form.marcaId)
-      .then(({ data }) => setModelos(data))
+      .then(({ data }) => setModelos(data.data ?? []))
       .catch(() => setModelos([]))
   }, [form.marcaId])
 
@@ -55,7 +55,7 @@ export default function MisVehiculos() {
     setCargando(true)
 
     obtenerMisVehiculos()
-      .then(({ data }) => setVehiculos(data))
+      .then(({ data }) => setVehiculos(data.data ?? []))
       .catch(() => setError('No se pudieron cargar los vehículos.'))
       .finally(() => setCargando(false))
   }
@@ -183,7 +183,7 @@ export default function MisVehiculos() {
                   >
                     <option value="">Selecciona</option>
                     {marcas.map(m => (
-                      <option key={m.id} value={m.id}>
+                      <option key={m._id || m.id} value={m._id || m.id}>
                         {m.nombre}
                       </option>
                     ))}
@@ -201,7 +201,7 @@ export default function MisVehiculos() {
                   >
                     <option value="">Selecciona</option>
                     {modelos.map(m => (
-                      <option key={m.id} value={m.id}>
+                      <option key={m._id || m.id} value={m._id || m.id}>
                         {m.nombre}
                       </option>
                     ))}

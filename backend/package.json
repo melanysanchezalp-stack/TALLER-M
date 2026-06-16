@@ -453,11 +453,14 @@
   
     
   "dev": "nodemon server.js",
-  
-    
+
+
   "start": "node server.js",
-  
-    
+
+
+  "seed": "node src/seed.js",
+
+
   "test": "echo \"Error: no test specified\" && exit 1"
   
   },

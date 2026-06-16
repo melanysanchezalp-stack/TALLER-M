@@ -16,8 +16,6 @@ const LINKS_PUBLICO = [
   { to: '/servicios', label: 'Servicios' },
   { to: '/tienda', label: 'Tienda' },
   { to: '/cotizador', label: 'Cotizador' },
-  { to: '/blog', label: 'Blog' },
-  { to: '/contacto', label: 'Contacto' },
 ]
 
 const LINKS_CLIENTE = [
@@ -171,11 +169,11 @@ export default function Navbar() {
                   </div>
 
                   <button
-                    onClick={() => navigate(usuario?.rol === 'ADMIN' ? '/admin' : '/cliente/dashboard')}
+                    onClick={() => navigate(usuario?.rol === 'ADMIN' ? '/admin' : '/mis-vehiculos')}
                     className="w-full flex items-center gap-3 px-5 py-4 hover:bg-gray-700 text-left"
                   >
                     <LayoutDashboard size={18} />
-                    Dashboard
+                    {usuario?.rol === 'ADMIN' ? 'Dashboard' : 'Mis Vehículos'}
                   </button>
 
                   <button

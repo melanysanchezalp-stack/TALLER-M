@@ -7,7 +7,6 @@ import {
   Car,
   Calendar,
   History,
-  LayoutDashboard,
   Home
 } from "lucide-react";
 import { useEffect, useState, useRef } from "react";
@@ -72,7 +71,7 @@ export default function TopbarCliente() {
   const cargarAgendamientos = async () => {
     try {
       const res = await obtenerMisAgendamientos();
-      setAgendamientos(res.data || []);
+      setAgendamientos(res.data?.data || []);
     } catch (error) {
       console.error(error);
     }
@@ -107,7 +106,7 @@ export default function TopbarCliente() {
   return (
     <header className="bg-white h-20 px-8 flex items-center justify-between border-b relative">
       <h1
-        onClick={() => navigate("/cliente/dashboard")}
+        onClick={() => navigate("/mis-vehiculos")}
         className="text-3xl font-black text-orange-500 cursor-pointer hover:opacity-80 transition"
       >
         PORTAL DE CLIENTE
@@ -190,11 +189,6 @@ export default function TopbarCliente() {
               <button onClick={() => navigate("/")} className="w-full flex items-center gap-3 px-5 py-4 hover:bg-gray-100 text-left">
                 <Home size={18} />
                 Inicio
-              </button>
-
-              <button onClick={() => navigate("/cliente/dashboard")} className="w-full flex items-center gap-3 px-5 py-4 hover:bg-gray-100 text-left">
-                <LayoutDashboard size={18} />
-                Dashboard
               </button>
 
               <button onClick={() => navigate("/cliente/perfil")} className="w-full flex items-center gap-3 px-5 py-4 hover:bg-gray-100 text-left">

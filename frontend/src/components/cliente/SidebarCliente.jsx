@@ -1,5 +1,4 @@
 import {
-  LayoutDashboard,
   Car,
   Calendar,
   History,
@@ -12,7 +11,6 @@ function SidebarCliente() {
   const navigate = useNavigate();
 
   const menu = [
-    { name: "Dashboard", icon: LayoutDashboard, path: "/cliente/dashboard" },
     { name: "Vehículos", icon: Car, path: "/mis-vehiculos" },
     { name: "Agendamientos", icon: Calendar, path: "/cliente/agendamientos" },
     { name: "Historial", icon: History, path: "/cliente/historial" },
@@ -23,7 +21,7 @@ function SidebarCliente() {
     <aside className="w-72 min-h-screen bg-slate-900 text-white flex flex-col justify-between shadow-2xl">
       <div>
         <div
-          onClick={() => navigate("/cliente/dashboard")}
+          onClick={() => navigate("/mis-vehiculos")}
           className="p-8 cursor-pointer hover:opacity-90 transition"
         >
           <h1 className="text-3xl font-black tracking-tight">

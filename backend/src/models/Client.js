@@ -28,6 +28,19 @@ const clientSchema = new mongoose.Schema({
     ref: 'User',
     required: true,
   },
+  puntos: {
+    type: Number,
+    default: 0,
+  },
+  nivelFidelizacion: {
+    type: String,
+    enum: ['BASICO', 'SILVER', 'GOLD', 'PLATINUM'],
+    default: 'BASICO',
+  },
+  descuento: {
+    type: Number,
+    default: null,
+  },
 }, {
   timestamps: true,
 });

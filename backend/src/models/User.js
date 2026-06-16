@@ -5,9 +5,14 @@ import mongoose from 'mongoose';
 import bcrypt from 'bcryptjs';
 
 const userSchema = new mongoose.Schema({
-  name: {
+  nombre: {
     type: String,
     required: [true, 'El nombre es obligatorio'],
+    trim: true,
+  },
+  apellido: {
+    type: String,
+    required: [true, 'El apellido es obligatorio'],
     trim: true,
   },
   email: {
@@ -21,12 +26,24 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: [true, 'La contraseña es obligatoria'],
     minlength: [6, 'La contraseña debe tener al menos 6 caracteres'],
-    select: false, // No incluir en consultas por defecto
+    select: false,
   },
   role: {
     type: String,
-    enum: ['admin', 'mechanic'],
+    enum: ['admin', 'mechanic', 'cliente'],
     default: 'mechanic',
+  },
+  telefono: {
+    type: String,
+    trim: true,
+  },
+  direccion: {
+    type: String,
+    trim: true,
+  },
+  rut: {
+    type: String,
+    trim: true,
   },
 }, {
   timestamps: true,

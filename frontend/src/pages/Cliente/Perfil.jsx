@@ -58,16 +58,17 @@ export default function Perfil() {
       ]);
 
       const fotoGuardada = localStorage.getItem("fotoPerfilCliente");
+      const usuario = perfilRes.data?.data;
 
-      setPerfil(perfilRes.data);
-      setVehiculos(vehiculosRes.data || []);
-      setAgendamientos(agRes.data || []);
+      setPerfil(usuario);
+      setVehiculos(vehiculosRes.data?.data || []);
+      setAgendamientos(agRes.data?.data || []);
 
       setForm({
-        telefono: perfilRes.data.telefono || "",
-        direccion: perfilRes.data.direccion || "",
-        rut: perfilRes.data.rut || "",
-        fotoUrl: fotoGuardada || perfilRes.data.fotoUrl || AVATARES[0],
+        telefono: usuario?.telefono || "",
+        direccion: usuario?.direccion || "",
+        rut: usuario?.rut || "",
+        fotoUrl: fotoGuardada || usuario?.fotoUrl || AVATARES[0],
       });
     } catch (error) {
       console.error(error);
@@ -122,7 +123,7 @@ export default function Perfil() {
       setGuardando(true);
       await cambiarPassword({
         passwordActual: passwordForm.passwordActual,
-        passwordNuevo: passwordForm.passwordNueva,
+        nuevaPassword: passwordForm.passwordNueva,
       });
 
       alert("Contraseña actualizada correctamente");

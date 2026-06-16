@@ -141,7 +141,7 @@ function TabServicios({ mensaje: setMsj }) {
       </div>
       <Tabla columnas={['Nombre', 'Precio base', 'Duración', 'Categoría', 'Acciones']} cargando={cargando} vacio="No hay servicios"
         datos={datos.map(s => (
-          <tr key={s.id} className="hover:bg-gray-750">
+          <tr key={s._id || s.id} className="hover:bg-gray-750">
             <td className="px-4 py-3 text-white">{s.nombre}</td>
             <td className="px-4 py-3 text-gray-300">{s.precioBase ? `$${Number(s.precioBase).toLocaleString('es-CL')}` : '—'}</td>
             <td className="px-4 py-3 text-gray-300">{s.duracionMinutos ? `${s.duracionMinutos} min` : '—'}</td>
@@ -163,7 +163,7 @@ function TabServicios({ mensaje: setMsj }) {
           </div>
           <select value={form.categoriaId} onChange={e => setForm({...form, categoriaId: e.target.value})} className="w-full bg-gray-900 border border-gray-700 rounded-lg px-3 py-2 text-sm text-white outline-none focus:border-orange-500">
             <option value="">Seleccionar categoría *</option>
-            {categorias.map(c => <option key={c.id} value={c.id}>{c.nombre}</option>)}
+            {categorias.map(c => <option key={c._id || c.id} value={c._id || c.id}>{c.nombre}</option>)}
           </select>
         </ModalForm>
       )}
@@ -259,7 +259,7 @@ function TabMarcas({ mensaje: setMsj }) {
       </div>
       <Tabla columnas={['Nombre']} cargando={cargando} vacio="No hay marcas registradas"
         datos={datos.map((m) => (
-          <tr key={m.id} className="hover:bg-gray-750">
+          <tr key={m._id || m.id} className="hover:bg-gray-750">
             <td className="px-4 py-3 text-white">{m.nombre}</td>
           </tr>
         ))}
@@ -288,7 +288,7 @@ function TabModelos({ mensaje: setMsj }) {
     if (!form.nombre || !form.marcaVehiculoId) return setError('Nombre y marca son requeridos')
     setGuardando(true)
     try {
-      const marcaObj = marcas.find(m => m.id === form.marcaVehiculoId || String(m.id) === String(form.marcaVehiculoId))
+      const marcaObj = marcas.find(m => (m._id || m.id) === form.marcaVehiculoId)
       await svc.crearModelo({ nombre: form.nombre, marca: marcaObj || { id: form.marcaVehiculoId } })
       setMsj({ tipo: 'ok', texto: 'Modelo creado' })
       setModal(false); recargar()
@@ -306,7 +306,7 @@ function TabModelos({ mensaje: setMsj }) {
       </div>
       <Tabla columnas={['Nombre', 'Marca']} cargando={cargando} vacio="No hay modelos registrados"
         datos={modelos.map((m) => (
-          <tr key={m.id} className="hover:bg-gray-750">
+          <tr key={m._id || m.id} className="hover:bg-gray-750">
             <td className="px-4 py-3 text-white">{m.nombre}</td>
             <td className="px-4 py-3 text-gray-400">{m.marca?.nombre || m.nombreMarca || '—'}</td>
           </tr>
@@ -319,7 +319,7 @@ function TabModelos({ mensaje: setMsj }) {
           <select value={form.marcaVehiculoId} onChange={(e) => setForm({ ...form, marcaVehiculoId: e.target.value })}
             className="w-full bg-gray-900 border border-gray-700 rounded-lg px-3 py-2 text-sm text-white outline-none focus:border-orange-500">
             <option value="">Seleccionar marca *</option>
-            {marcas.map(m => <option key={m.id} value={m.id}>{m.nombre}</option>)}
+            {marcas.map(m => <option key={m._id || m.id} value={m._id || m.id}>{m.nombre}</option>)}
           </select>
         </ModalForm>
       )}

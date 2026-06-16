@@ -5,7 +5,7 @@ export default function useLista(fnCargar) {
   const [cargando, setCargando] = useState(true)
   const cargar = async () => {
     setCargando(true)
-    try { const { data } = await fnCargar(); setDatos(Array.isArray(data) ? data : []) }
+    try { const { data } = await fnCargar(); setDatos(Array.isArray(data?.data) ? data.data : []) }
     catch { setDatos([]) }
     finally { setCargando(false) }
   }

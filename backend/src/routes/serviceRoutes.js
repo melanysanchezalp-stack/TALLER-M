@@ -14,16 +14,14 @@ import { serviceValidator } from '../validators/serviceValidator.js';
 
 const router = Router();
 
-// Todas las rutas requieren autenticación
-router.use(protect);
+// Rutas públicas (catálogo)
+router.get('/', getServices);
+router.get('/todos', getServices);
+router.get('/:id', getServiceById);
 
-router.route('/')
-  .get(getServices)
-  .post(serviceValidator, createService);
-
-router.route('/:id')
-  .get(getServiceById)
-  .put(serviceValidator, updateService)
-  .delete(deleteService);
+// Rutas protegidas (administración)
+router.post('/', protect, serviceValidator, createService);
+router.put('/:id', protect, serviceValidator, updateService);
+router.delete('/:id', protect, deleteService);
 
 export default router;

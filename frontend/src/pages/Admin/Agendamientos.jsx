@@ -40,7 +40,7 @@ export default function Agendamientos() {
       if (filtroEstado) params.estado = filtroEstado
       if (filtroFecha)  params.fecha  = filtroFecha
       const { data } = await svc.obtenerAgendamientosAdmin(params)
-      setAgendamientos(Array.isArray(data) ? data : data?.content ?? [])
+      setAgendamientos(Array.isArray(data?.data) ? data.data : [])
     } catch {
       setError('Error al cargar agendamientos')
       setAgendamientos([])

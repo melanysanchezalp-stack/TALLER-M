@@ -16,23 +16,23 @@ export default function DiagnosticoIA({ vehiculo, setVehiculo, descripcionFallo,
   const [modelos, setModelos] = useState([])
 
   useEffect(() => {
-    obtenerMarcas().then(({ data }) => setMarcas(data)).catch(() => {})
+    obtenerMarcas().then(({ data }) => setMarcas(data.data ?? [])).catch(() => {})
   }, [])
 
   useEffect(() => {
     if (!vehiculo.marcaId) { setModelos([]); return }
-    obtenerModelos(vehiculo.marcaId).then(({ data }) => setModelos(data)).catch(() => setModelos([]))
+    obtenerModelos(vehiculo.marcaId).then(({ data }) => setModelos(data.data ?? [])).catch(() => setModelos([]))
   }, [vehiculo.marcaId])
 
   const handleMarca = (e) => {
     const marcaId = e.target.value
-    const marcaNombre = marcas.find(m => m.id === marcaId)?.nombre ?? ''
+    const marcaNombre = marcas.find(m => (m._id || m.id) === marcaId)?.nombre ?? ''
     setVehiculo({ ...vehiculo, marcaId, marca: marcaNombre, modeloId: '', modelo: '' })
   }
 
   const handleModelo = (e) => {
     const modeloId = e.target.value
-    const modeloNombre = modelos.find(m => m.id === modeloId)?.nombre ?? ''
+    const modeloNombre = modelos.find(m => (m._id || m.id) === modeloId)?.nombre ?? ''
     setVehiculo({ ...vehiculo, modeloId, modelo: modeloNombre })
   }
 
@@ -63,7 +63,7 @@ export default function DiagnosticoIA({ vehiculo, setVehiculo, descripcionFallo,
             >
               <option value="">Selecciona</option>
               {marcas.map(m => (
-                <option key={m.id} value={m.id}>{m.nombre}</option>
+                <option key={m._id || m.id} value={m._id || m.id}>{m.nombre}</option>
               ))}
             </select>
           </div>
@@ -79,7 +79,7 @@ export default function DiagnosticoIA({ vehiculo, setVehiculo, descripcionFallo,
             >
               <option value="">Selecciona</option>
               {modelos.map(m => (
-                <option key={m.id} value={m.id}>{m.nombre}</option>
+                <option key={m._id || m.id} value={m._id || m.id}>{m.nombre}</option>
               ))}
             </select>
           </div>

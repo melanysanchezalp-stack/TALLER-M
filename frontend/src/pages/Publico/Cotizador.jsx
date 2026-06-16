@@ -25,7 +25,7 @@ export default function Cotizador() {
 
   useEffect(() => {
     obtenerServicios()
-      .then(({ data }) => setCatalogoServicios(data))
+      .then(({ data }) => setCatalogoServicios(data.data ?? []))
       .catch(() => {})
   }, [])
 

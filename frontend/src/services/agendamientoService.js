@@ -1,7 +1,7 @@
 import api from '../api/axiosInstance'
 
 export const crearAgendamiento = (datos) =>
-  api.post('/api/agendamientos', datos)
+  api.post('/api/agendamientos/mis', datos)
 
 export const obtenerMisAgendamientos = () =>
   api.get('/api/agendamientos/mis')

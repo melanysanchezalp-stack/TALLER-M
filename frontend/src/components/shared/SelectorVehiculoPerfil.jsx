@@ -14,7 +14,7 @@ export default function SelectorVehiculoPerfil({ vehiculo, setVehiculo }) {
     if (!usuario) return
     setCargando(true)
     obtenerMisVehiculos()
-      .then(({ data }) => setMisVehiculos(data))
+      .then(({ data }) => setMisVehiculos(data.data ?? []))
       .catch(() => {})
       .finally(() => setCargando(false))
   }, [usuario])

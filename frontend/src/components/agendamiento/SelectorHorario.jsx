@@ -13,7 +13,7 @@ export default function SelectorHorario({ fecha, servicioId, horaSeleccionada, o
       try {
         const fechaStr = new Date(fecha).toISOString().split('T')[0]
         const { data } = await obtenerDisponibilidad(fechaStr, servicioId)
-        setSlots(data.map(s => ({
+        setSlots((data.data ?? []).map(s => ({
           iso:     s.fechaHoraInicio,
           display: new Date(s.fechaHoraInicio).toLocaleTimeString('es-CL', { hour: '2-digit', minute: '2-digit' }),
           ocupado: !s.disponible,

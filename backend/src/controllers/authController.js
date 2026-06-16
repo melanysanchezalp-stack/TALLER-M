@@ -10,18 +10,17 @@ import { HTTP_CODES } from '../utils/httpCodes.js';
 // @desc    Registrar nuevo usuario
 // @route   POST /api/auth/register
 export const register = asyncHandler(async (req, res) => {
-  const { name, email, password, role } = req.body;
+  const { nombre, apellido, email, password, telefono, direccion, rut, rolNombre, role } = req.body;
 
-  // Verificar si el usuario ya existe
   const existingUser = await User.findOne({ email });
   if (existingUser) {
     throw new AppError('El email ya está registrado', HTTP_CODES.BAD_REQUEST);
   }
 
-  // Crear usuario
-  const user = await User.create({ name, email, password, role });
+  const assignedRole = rolNombre ? rolNombre.toLowerCase() : (role || 'mechanic');
 
-  // Generar token
+  const user = await User.create({ nombre, apellido, email, password, telefono, direccion, rut, role: assignedRole });
+
   const token = generateToken(user._id);
 
   res.status(HTTP_CODES.CREATED).json({
@@ -29,7 +28,8 @@ export const register = asyncHandler(async (req, res) => {
     message: 'Usuario registrado exitosamente',
     data: {
       _id: user._id,
-      name: user.name,
+      nombre: user.nombre,
+      apellido: user.apellido,
       email: user.email,
       role: user.role,
       token,
@@ -62,7 +62,8 @@ export const login = asyncHandler(async (req, res) => {
     message: 'Inicio de sesión exitoso',
     data: {
       _id: user._id,
-      name: user.name,
+      nombre: user.nombre,
+      apellido: user.apellido,
       email: user.email,
       role: user.role,
       token,

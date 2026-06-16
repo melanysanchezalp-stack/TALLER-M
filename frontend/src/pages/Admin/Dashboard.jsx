@@ -62,7 +62,7 @@ export default function Dashboard() {
 
   useEffect(() => {
     obtenerDashboard()
-      .then(({ data }) => setDatos(data))
+      .then(({ data }) => setDatos(data.data))
       .catch(() => setError('No se pudo cargar el dashboard.'))
       .finally(() => setCargando(false))
   }, [])

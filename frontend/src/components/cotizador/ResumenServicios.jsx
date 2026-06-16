@@ -13,22 +13,18 @@ export default function ResumenServicios({ vehiculo, setVehiculo, serviciosSelec
   const [modelos, setModelos]     = useState([])
 
   useEffect(() => {
-    obtenerMarcas().then(({ data }) => setMarcas(data)).catch(() => {})
+    obtenerMarcas().then(({ data }) => setMarcas(data.data ?? [])).catch(() => {})
   }, [])
 
   useEffect(() => {
     if (!vehiculo.marcaId) { setModelos([]); return }
-    obtenerModelos(vehiculo.marcaId).then(({ data }) => setModelos(data)).catch(() => setModelos([]))
+    obtenerModelos(vehiculo.marcaId).then(({ data }) => setModelos(data.data ?? [])).catch(() => setModelos([]))
   }, [vehiculo.marcaId])
 
   useEffect(() => {
     obtenerServicios()
       .then(({ data }) => {
-        const lista = Array.isArray(data)
-          ? data
-          : Array.isArray(data?.servicios)
-          ? data.servicios
-          : []
+        const lista = Array.isArray(data?.data) ? data.data : []
 
         setServicios(lista)
         setError(false)
@@ -39,31 +35,32 @@ export default function ResumenServicios({ vehiculo, setVehiculo, serviciosSelec
 
   const handleMarca = (e) => {
     const marcaId     = e.target.value
-    const marcaNombre = marcas.find(m => m.id === marcaId)?.nombre ?? ''
+    const marcaNombre = marcas.find(m => (m._id || m.id) === marcaId)?.nombre ?? ''
     setVehiculo({ ...vehiculo, marcaId, marca: marcaNombre, modeloId: '', modelo: '' })
   }
 
   const handleModelo = (e) => {
     const modeloId    = e.target.value
-    const modeloNombre = modelos.find(m => m.id === modeloId)?.nombre ?? ''
+    const modeloNombre = modelos.find(m => (m._id || m.id) === modeloId)?.nombre ?? ''
     setVehiculo({ ...vehiculo, modeloId, modelo: modeloNombre })
   }
 
   const handleChange = (e) => setVehiculo({ ...vehiculo, [e.target.name]: e.target.value })
 
   const toggleServicio = (servicio) => {
+    const svcId = servicio._id || servicio.id
     const yaSeleccionado = serviciosSeleccionados.find(
-      s => s.id === servicio.id
+      s => (s._id || s.id) === svcId
     )
 
     if (yaSeleccionado) {
       setServiciosSeleccionados(
-        serviciosSeleccionados.filter(s => s.id !== servicio.id)
+        serviciosSeleccionados.filter(s => (s._id || s.id) !== svcId)
       )
     } else {
       setServiciosSeleccionados([
         ...serviciosSeleccionados,
-        servicio
+        { ...servicio, id: svcId }
       ])
     }
   }
@@ -89,7 +86,7 @@ export default function ResumenServicios({ vehiculo, setVehiculo, serviciosSelec
             <label className={labelClass}>MARCA</label>
             <select value={vehiculo.marcaId ?? ''} onChange={handleMarca} className={inputClass}>
               <option value="">Selecciona</option>
-              {marcas.map(m => <option key={m.id} value={m.id}>{m.nombre}</option>)}
+              {marcas.map(m => <option key={m._id || m.id} value={m._id || m.id}>{m.nombre}</option>)}
             </select>
           </div>
 
@@ -98,7 +95,7 @@ export default function ResumenServicios({ vehiculo, setVehiculo, serviciosSelec
             <select value={vehiculo.modeloId ?? ''} onChange={handleModelo}
               disabled={!vehiculo.marcaId} className={`${inputClass} disabled:opacity-50 disabled:cursor-not-allowed`}>
               <option value="">Selecciona</option>
-              {modelos.map(m => <option key={m.id} value={m.id}>{m.nombre}</option>)}
+              {modelos.map(m => <option key={m._id || m.id} value={m._id || m.id}>{m.nombre}</option>)}
             </select>
           </div>
 
@@ -147,7 +144,7 @@ export default function ResumenServicios({ vehiculo, setVehiculo, serviciosSelec
               )
 
               return (
-                <button key={servicio.id} onClick={() => toggleServicio(servicio)}
+                <button key={servicio._id || servicio.id} onClick={() => toggleServicio(servicio)}
                   className={`text-left p-4 rounded-lg border-2 transition-all ${
                     seleccionado ? 'border-orange-500 bg-orange-500/10' : 'border-gray-200 bg-gray-50 hover:border-gray-400'
                   }`}>

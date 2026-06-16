@@ -19,7 +19,7 @@ export default function Clientes() {
 
   useEffect(() => {
     svc.obtenerClientes()
-      .then(({ data }) => setClientes(Array.isArray(data) ? data : []))
+      .then(({ data }) => setClientes(Array.isArray(data?.data) ? data.data : []))
       .catch(() => {})
       .finally(() => setCargando(false))
   }, [])

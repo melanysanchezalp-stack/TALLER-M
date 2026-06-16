@@ -15,10 +15,10 @@ export default function Historial() {
     try {
       const res = await obtenerMisAgendamientos();
 
-      const completados = (res.data || []).filter(
+      const completados = (res.data?.data || []).filter(
         (ag) =>
-          ag.estadoAgendamiento?.nombre === "COMPLETADO" ||
-          ag.estadoAgendamiento === "COMPLETADO"
+          ag.estadoAgendamiento === "TERMINADO" ||
+          ag.estadoAgendamiento === "terminado"
       );
 
       setHistorial(completados);

@@ -8,6 +8,7 @@ import {
   getClientById,
   updateClient,
   deleteClient,
+  ajustarPuntos,
 } from '../controllers/clientController.js';
 import { protect } from '../middlewares/authMiddleware.js';
 import { clientValidator } from '../validators/clientValidator.js';
@@ -20,6 +21,8 @@ router.use(protect);
 router.route('/')
   .get(getClients)
   .post(clientValidator, createClient);
+
+router.patch('/:id/puntos', ajustarPuntos);
 
 router.route('/:id')
   .get(getClientById)

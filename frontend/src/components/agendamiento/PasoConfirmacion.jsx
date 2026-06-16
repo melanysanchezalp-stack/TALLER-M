@@ -33,15 +33,15 @@ export default function PasoConfirmacion({ vehiculo, servicios, fecha, hora, onV
   useEffect(() => {
     obtenerMisVehiculos()
       .then(({ data }) => {
-        setMisVehiculos(data)
+        const lista = data.data ?? []
+        setMisVehiculos(lista)
 
         if (vehiculo?.patente) {
-          const match = data.find(v => v.patente === vehiculo.patente)
+          const match = lista.find(v => v.patente === vehiculo.patente)
           if (match) {
             if (hayCambios(vehiculo, match)) {
-              // Misma patente, datos distintos → conflicto
               setConflicto(match)
-              setVehiculoSelId('__cotizador__') // por defecto, lo que ingresó el usuario
+              setVehiculoSelId('__cotizador__')
             } else {
               setVehiculoSelId(match.id)
             }
@@ -54,7 +54,7 @@ export default function PasoConfirmacion({ vehiculo, servicios, fecha, hora, onV
           return
         }
 
-        if (data.length === 1) setVehiculoSelId(data[0].id)
+        if (lista.length === 1) setVehiculoSelId(lista[0].id)
       })
       .catch(() => {})
       .finally(() => setCargandoVeh(false))
@@ -93,17 +93,15 @@ export default function PasoConfirmacion({ vehiculo, servicios, fecha, hora, onV
             anio:        vehiculo.anio      ? Number(vehiculo.anio) : null,
             kilometraje: vehiculo.kilometraje ? Number(vehiculo.kilometraje) : null,
           })
-          idVehiculoFinal = vGuardado.id
+          idVehiculoFinal = (vGuardado.data?._id || vGuardado.data?.id)?.toString()
         }
       }
 
       for (const servicio of servicios) {
         await crearAgendamiento({
           idVehiculo:  idVehiculoFinal,
-          idServicio:  servicio.id,
+          idServicio:  servicio._id || servicio.id,
           fechaInicio: hora,
-          notaCliente: null,
-          patente:     null,
         })
       }
       setConfirmado(true)
@@ -213,8 +211,8 @@ export default function PasoConfirmacion({ vehiculo, servicios, fecha, hora, onV
           Detalle del agendamiento
         </p>
         <div className="space-y-2 text-sm">
-          {servicios.map(s => (
-            <div key={s.id} className="flex justify-between text-xs">
+          {servicios.map((s, i) => (
+            <div key={s._id || s.id || i} className="flex justify-between text-xs">
               <span className="text-gray-500">{s.nombre}</span>
               <span className="text-gray-700 font-semibold">${(s.precioBase ?? 0).toLocaleString('es-CL')}</span>
             </div>

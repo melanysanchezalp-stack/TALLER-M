@@ -20,7 +20,8 @@ export default function TabLogin({ onContinuar }) {
     setError('')
     try {
       const { data } = await api.post('/api/auth/login', { email, password })
-      loginCtx(data.token, { rol: data.rol, nombre: data.nombre, usuarioId: data.usuarioId })
+      const user = data.data
+      loginCtx(user.token, { token: user.token, rol: user.role, nombre: user.nombre, email: user.email, usuarioId: user._id })
       onContinuar()
     } catch (e) {
       setError(e.response?.status === 401

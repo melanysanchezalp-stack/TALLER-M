@@ -28,7 +28,7 @@ export default function Servicios() {
 
   useEffect(() => {
     obtenerServicios()
-      .then(({ data }) => setServicios(data))
+      .then(({ data }) => setServicios(data.data ?? []))
       .catch((err) => console.error(err));
   }, []);
 
@@ -202,7 +202,7 @@ export default function Servicios() {
           <div className="grid md:grid-cols-3 gap-8">
             {servicios.filter(mostrarServicio).map((servicio) => (
               <div
-                key={servicio.id}
+                key={servicio._id || servicio.id}
                 className="bg-white rounded-2xl overflow-hidden shadow hover:shadow-xl transition"
               >
                 <img
@@ -247,7 +247,7 @@ export default function Servicios() {
                       onClick={() =>
                         navigate("/agendar", {
                           state: {
-                            servicioId: servicio.id,
+                            servicioId: servicio._id || servicio.id,
                             servicio: servicio.nombre,
                             descripcion: servicio.descripcion,
                             precio: servicio.precioBase,

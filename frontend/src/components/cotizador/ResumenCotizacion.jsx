@@ -34,7 +34,7 @@ export default function ResumenCotizacion({ vehiculo, serviciosSeleccionados }) 
       ) : (
         <div className="space-y-2 mb-4">
           {serviciosSeleccionados.map(s => (
-            <div key={s.id} className="flex justify-between items-center">
+            <div key={s._id || s.id} className="flex justify-between items-center">
               <span className="text-gray-400 text-sm">{s.nombre}</span>
               <span className="text-white text-sm font-semibold">
                 ${(s.precioBase ?? s.precio ?? 0).toLocaleString('es-CL')}

@@ -20,7 +20,8 @@ export default function Agendamiento() {
         state?.servicio
             ? [
                 {
-                    id: state.servicioId,
+                    _id: state.servicioId,
+                    id:  state.servicioId,
                     nombre: state.servicio,
                     descripcion: state.descripcion,
                     precioBase: state.precio

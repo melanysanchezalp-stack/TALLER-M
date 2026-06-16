@@ -22,16 +22,17 @@ export default function Login() {
 
     try {
       const { data } = await login({ email, password })
+      const user = data.data
 
-      loginCtx(data.token, {
-        token: data.token,
-        rol: data.rol,
-        nombre: data.nombre,
-        email: data.email ?? email,
-        usuarioId: data.usuarioId,
+      loginCtx(user.token, {
+        token: user.token,
+        rol: user.role,
+        nombre: user.nombre,
+        email: user.email ?? email,
+        usuarioId: user._id,
       })
 
-      if (data.rol === 'ADMIN' || data.rol === 'TECNICO') {
+      if (user.role === 'admin' || user.role === 'mechanic') {
         navigate('/admin')
       } else {
         navigate('/')

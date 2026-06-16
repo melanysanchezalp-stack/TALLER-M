@@ -9,6 +9,8 @@ import {
   getVehiclesByClient,
   updateVehicle,
   deleteVehicle,
+  getMisVehiculos,
+  registrarMiVehiculo,
 } from '../controllers/vehicleController.js';
 import { protect } from '../middlewares/authMiddleware.js';
 import { vehicleValidator } from '../validators/vehicleValidator.js';
@@ -22,6 +24,9 @@ router.use(protect);
 router.route('/')
   .get(getVehicles)
   .post(upload.single('image'), vehicleValidator, createVehicle);
+
+router.get('/mis-vehiculos', getMisVehiculos);
+router.post('/registrar', registrarMiVehiculo);
 
 router.route('/client/:clientId')
   .get(getVehiclesByClient);

@@ -8,7 +8,7 @@ export default function RutaProtegida({ rolesPermitidos, children }) {
 
   if (!usuario) return <Navigate to="/login" replace />
 
-  if (rolesPermitidos && !rolesPermitidos.includes(usuario.rol))
+  if (rolesPermitidos && !rolesPermitidos.map(r => r.toLowerCase()).includes(usuario.rol?.toLowerCase()))
     return <Navigate to="/" replace />
 
   return children
